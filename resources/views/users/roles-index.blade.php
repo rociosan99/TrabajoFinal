@@ -4,7 +4,6 @@
 <ul>
     <li>Hola</li>
     <li>nlokns</li>
-    <li>jnjncna</li>
 </ul>
 @endsection
 @section("view_content")
