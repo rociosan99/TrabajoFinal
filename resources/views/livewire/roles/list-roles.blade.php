@@ -20,7 +20,12 @@
             <td class="border border-gray-300 p-2">{{$role->id}}</td>
             <td class="border border-gray-300 p-2">{{$role->name}}</td>
             <td class="border border-gray-300 p-2">{{Date::parse($role->created_at)->format("d-m-Y")}}</td>
-            <td class="border border-gray-300 p-2">Acción</td>
+            <td class="border border-gray-300 p-2 text-center">
+                <div>
+                    <a class="text-blue-600 hover:text-blue-900 text-center">Editar</a>
+                    <button class="text-red-600 hover:text-red-900 ml-4" >Eliminar</button>
+                </div>
+            </td>
         </tr>
         @empty
         <tr>
