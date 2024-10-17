@@ -17,12 +17,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('users-roles-index') }}" :active="request()->routeIs('users-*')">
+                        Roles
+                    </x-nav-link>  
+                    <x-nav-link href="{{ route('users-users-index') }}" :active="request()->routeIs('users-*')">
                         Usuarios
-                    </x-nav-link>    
+                    </x-nav-link>  
                 </div>
             </div>
         </div>
         
+        <header class="flex justify-start align-center gap-4">
+            @yield("view_title")
+            <nav>
+                @yield("view_nav")
+            </nav>
+        </header>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">

@@ -2,7 +2,7 @@
     <form wire:submit.prevent="save" wire:confirm="¿Crear rol?">
         <!-- Etiqueta Nombre de Rol -->
         <div class="mb-4">
-            <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre de Rol</label>
+            <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre del Rol</label>
             <input wire:model="name" type="text" name="name" id="name" 
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese el nombre del rol">
