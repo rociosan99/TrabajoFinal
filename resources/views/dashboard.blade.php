@@ -16,9 +16,7 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('users-roles-index') }}" :active="request()->routeIs('users-*')">
-                        Roles
-                    </x-nav-link>  
+ 
                     <x-nav-link href="{{ route('users-users-index') }}" :active="request()->routeIs('users-*')">
                         Usuarios
                     </x-nav-link>  
@@ -26,19 +24,23 @@
             </div>
         </div>
         
-        <header class="flex justify-start align-center gap-4">
-            @yield("view_title")
+        <header class="flex justify-start align-center gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-slate-950 w-full p-2 flex justify-start items-center gap-4">
+            <span class="text-lg text-gray-100">
+             @yield("view_title")
+           </span>
             <nav>
                 @yield("view_nav")
             </nav>
+        </div>   
+        
         </header>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-2">
                 @yield("view_content")<!-- contenido dinamico-->
             </div>
         </div>
     </div>
 
-     
 </x-app-layout>
