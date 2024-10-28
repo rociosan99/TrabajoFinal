@@ -19,4 +19,8 @@ class UserController extends Controller
         return view("vistas_estaticas.users.users-index");
 
     }
+
+    public function users_create(){
+        return view ("vistas_estaticas.users.users-create");
+    }
 }

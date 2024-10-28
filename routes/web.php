@@ -22,4 +22,4 @@ Route::get("users/roles/create",[UserController::class,"roles_create"])->name("u
 
 //rutas para usuarios
 Route::get("users/users",[UserController::class,"users_index"])->name("users-users-index");
-//Route::get("users/users/create",[UserController::class,"users_create"])->name("users-users-create");
+Route::get("users/users/create",[UserController::class,"users_create"])->name("users-users-create");

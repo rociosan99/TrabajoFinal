@@ -1,6 +1,6 @@
 <div>
     <div class="w-full flex justify-end items-center gap-4 p-4">
-        <a class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+        <a href="{{ route('users-users-create') }}"class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
             Agregar Usuario
         </a>
     </div>
