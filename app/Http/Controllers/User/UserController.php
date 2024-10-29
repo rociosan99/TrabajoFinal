@@ -23,4 +23,7 @@ class UserController extends Controller
     public function users_create(){
         return view ("vistas_estaticas.users.users-create");
     }
+    public function users_edit($id){
+        return view ("vistas_estaticas.users.users-edit",["id"=>$id]);
+    }
 }
