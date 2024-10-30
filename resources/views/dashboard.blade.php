@@ -20,6 +20,10 @@
                     <x-nav-link href="{{ route('users-users-index') }}" :active="request()->routeIs('users-*')">
                         Usuarios
                     </x-nav-link>  
+
+                    <x-nav-link href="{{ route('cursos-cursos-index') }}" :active="request()->routeIs('cursos-*')">
+                        Cursos
+                    </x-nav-link>
                 </div>
             </div>
         </div>
