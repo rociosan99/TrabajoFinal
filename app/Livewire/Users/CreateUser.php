@@ -9,6 +9,9 @@ use App\Models\Users; // Esta línea podría ser innecesaria si tienes un modelo
 class CreateUser extends Component
 {
     public $name;
+    public $apellido;
+    public $dni;
+    public $fecha_nac;
     public $email;
     public $password;
     
@@ -18,17 +21,30 @@ class CreateUser extends Component
         // Validación de datos
         $this->validate([
             'name' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'dni'=> 'required',
+            'fecha_nac'=>'required|date',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
+        ], [
+            'name.required' => 'el :attribute es obligatorio',
+        ], [
+            'name'=>'nombre',
         ]);
 
         // Creación del usuario
         //dd($this->name, $this->email, $this->password);
-        User::create([
+        $usuario = User::create([
             'name' => $this->name,
+            'apellido'=>$this->apellido,
+            'dni'=>$this->dni,
+            'fecha_nac'=>$this->fecha_nac,
             'email' => $this->email,
             'password' => bcrypt($this->password),
         ]);
+
+        $usuario->assignRole('Profesor');
+
 
         // Limpiar los campos del formulario
         $this->reset();

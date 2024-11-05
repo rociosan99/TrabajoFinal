@@ -10,6 +10,7 @@
                 <th class="border border-gray-300 p-2 text-md">ID</th>
                 <th class="border border-gray-300 p-2 text-md">Nombre y Apellido</th>
                 <th class="border border-gray-300 p-2 text-md">Email</th>
+                <th class="border border-gray-300 p-2 text-md">Rol</th>
                 <th class="border border-gray-300 p-2 text-md">Acciones</th>
             </tr>
         </thead>
@@ -19,6 +20,7 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->id }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->name }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->email }}</td>
+                    <td class="border border-gray-300 p-2 text-md text-black">{{ $user->getRoleNames()->first() }}</td>
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
                             <a href="{{route('users-users-edit', $user->id)}}" class="text-blue-600 hover:text-blue-900">Editar</a>
