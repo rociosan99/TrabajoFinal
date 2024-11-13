@@ -19,7 +19,7 @@
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese el apellido del usuario" >
             @error('apellido')
-                <span>
+                <span class="text-sm text-red-600">
                     {{$message}}
                 </span>
             @enderror
@@ -33,7 +33,7 @@
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese el dni del usuario" >
             @error('dni')
-                <span>
+                <span class="text-sm text-red-600">
                     {{$message}}
                 </span>
             @enderror
@@ -46,7 +46,7 @@
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese su fecha de nacimiento">
              @error('fecha_nac')
-                <span>
+                <span class="text-sm text-red-600">
                     {{$message}}
                 </span>
             @enderror
@@ -59,7 +59,7 @@
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese el email del usuario">
             @error('email')
-                <span>
+                <span class="text-sm text-red-600">
                     {{$message}}
                 </span>
             @enderror
@@ -72,7 +72,7 @@
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese la contraseña">
             @error('password')
-                <span>
+                <span class="text-sm text-red-600">
                     {{$message}}
                 </span>
             @enderror

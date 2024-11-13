@@ -13,5 +13,5 @@
 @endsection
 
 @section("view_content")
-  sdfghj
+    @livewire("cursos.list-cursos")
 @endsection

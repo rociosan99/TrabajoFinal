@@ -21,6 +21,18 @@ class DatabaseSeeder extends Seeder
             'created_at'=>now(),
         ]);
 
+        DB::table('roles')->insert([
+            'name'=>'Profesor',
+            'guard_name'=>'web',
+            'created_at'=>now(),
+        ]);
+
+        DB::table('roles')->insert([
+            'name'=>'Alumno',
+            'guard_name'=>'web',
+            'created_at'=>now(),
+        ]);
+
         $usuario = User::create([
             'name'=> 'Claudia',
             'apellido'=>'Sainz',
@@ -32,6 +44,27 @@ class DatabaseSeeder extends Seeder
 
         $usuario->assignRole('Administrador');
 
+        $profesor= User::create([
+            'name'=> 'Maria',
+            'apellido'=>'Diaz',
+            'dni'=>'40235569',
+            'fecha_nac'=> now(),
+            'email'=>'maria@gmail.com',
+            'password'=> bcrypt('12345678'),
+        ]);
+
+        $profesor->assignRole('Profesor');
+
+        $alumno = User::create([
+            'name'=> 'Jose',
+            'apellido'=>'Martinez',
+            'dni'=>'43369857',
+            'fecha_nac'=> now(),
+            'email'=>'jose@gmail.com',
+            'password'=> bcrypt('12345678'),
+        ]);
+
+        $alumno->assignRole('Alumno');
 
     }
 }

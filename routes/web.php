@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Cursos\CursoController;
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,3 +30,5 @@ Route::get("users/users/edit/{id}",[UserController::class,"users_edit"])->name("
 
 // rutas para cursos
 Route::get("cursos/cursos",[CursoController::class,"cursos_index"])->name("cursos-cursos-index");
+Route::get("cursos/cursos/create",[CursoController::class,"cursos_create"])->name("cursos-cursos-create");
+Route::get('cursos/cursos/edit/{id}', [CursoController::class, 'cursos_edit'])->name('cursos-cursos-edit');

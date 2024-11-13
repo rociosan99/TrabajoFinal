@@ -10,5 +10,14 @@ class CursoController extends Controller
     public function cursos_index(){
         return view("vistas_estaticas.cursos.cursos-index");
     }
-    
+
+    public function cursos_create(){
+        return view("vistas_estaticas.cursos.cursos-create");
+    }
+
+    public function cursos_edit($id){
+        return view ("vistas_estaticas.cursos.cursos-edit",["id"=>$id]);
+    }
 }
+    
+

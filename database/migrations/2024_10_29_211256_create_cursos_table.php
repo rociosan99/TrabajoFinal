@@ -15,12 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string ('nombre');
             $table->string('dia');
-            $table->date ('horario');
+            $table->time ('horario');
             $table->date ('fecha_inicio');
             $table->date ('fecha_fin');
             $table->string ('descripcion');
-                
+
+            $table->unsignedBigInteger("usuario_id");//clave foranea
+            $table->foreign("usuario_id")->references("id")->on("users");
+            
             $table->timestamps();
+
         });
     }
 
