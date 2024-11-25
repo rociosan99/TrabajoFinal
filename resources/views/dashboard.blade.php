@@ -24,6 +24,15 @@
                     <x-nav-link href="{{ route('cursos-cursos-index') }}" :active="request()->routeIs('cursos-*')">
                         Cursos
                     </x-nav-link>
+
+                    <x-nav-link href="{{ route('examenes-examenes-index') }}" :active="request()->routeIs('')">
+                        Examen
+                    </x-nav-link>
+
+                    <x-nav-link href="" :active="request()->routeIs('')">
+                        Calificaciones
+                    </x-nav-link>
+                    
                 </div>
             </div>
         </div>
@@ -41,6 +50,7 @@
         </header>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-2">
                 @yield("view_content")<!-- contenido dinamico-->
             </div>
@@ -48,3 +58,4 @@
     </div>
 
 </x-app-layout>
+<!-- {{Auth::user()->name}}-->

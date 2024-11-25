@@ -1,6 +1,6 @@
 <div>
     <div class="w-full flex justify-end items-center gap-4 p-4">
-        <a href="{{ route('users-users-create') }}"class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+        <a href="{{ route('users-users-create') }}" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
             Agregar Usuario
         </a>
     </div>
@@ -8,7 +8,8 @@
         <thead>
             <tr class="bg-blue-500 text-white">
                 <th class="border border-gray-300 p-2 text-md">ID</th>
-                <th class="border border-gray-300 p-2 text-md">Nombre y Apellido</th>
+                <th class="border border-gray-300 p-2 text-md">Nombre</th>
+                <th class="border border-gray-300 p-2 text-md">Apellido</th>
                 <th class="border border-gray-300 p-2 text-md">Email</th>
                 <th class="border border-gray-300 p-2 text-md">Rol</th>
                 <th class="border border-gray-300 p-2 text-md">Acciones</th>
@@ -19,11 +20,12 @@
                 <tr wire:key="{{$user->id}}" class="bg-white border-b hover:bg-gray-50">
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->id }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->name }}</td>
+                    <td class="border border-gray-300 p-2 text-md text-black">{{ $user->apellido }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->email }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $user->getRoleNames()->first() }}</td>
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
-                            <a href="{{route('users-users-edit', $user->id)}}" class="text-blue-600 hover:text-blue-900">Editar</a>
+                            <a href="{{ route('users-users-edit', $user->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
                             <button wire:click="deleteUser({{ $user->id }})" wire:confirm="Desea borrar este Usuario" class="text-red-600 hover:text-red-900">Eliminar</button>
                         </div>
                     </td>
@@ -50,8 +52,10 @@
                             </h3>
                             <div class="mt-2">
                                 <input type="text" wire:model="name" class="border rounded p-2 w-full" placeholder="Nombre">
+                                <input type="text" wire:model="apellido" class="border rounded p-2 w-full mt-2" placeholder="Apellido">
                                 <input type="email" wire:model="email" class="border rounded p-2 w-full mt-2" placeholder="Email">
                                 @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                @error('apellido') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                             </div>
                         </div>

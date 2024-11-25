@@ -32,7 +32,7 @@
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
                             <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
-                            <button wire:click="" wire:confirm="¿Desea borrar este Curso?" class="text-red-600 hover:text-red-900">Eliminar</button>
+                            <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea borrar este Curso?" class="text-red-600 hover:text-red-900">Eliminar</button>
                         </div>
                     </td>
                 </tr>

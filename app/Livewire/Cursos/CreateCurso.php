@@ -17,13 +17,13 @@ class CreateCurso extends Component
     public $descripcion;
     public $profesor;
 
-    public $misprofesores;
+    public $misprofesores;//almacenamiento de profesores
 
     public function mount(){
         $this->misprofesores = User::role('Profesor')->get(); 
 
         //dd($this->misprofesores);
-    }
+    }//me trae el rol de profesor
 
     // Validaciones para los campos del formulario
     protected $rules = [
