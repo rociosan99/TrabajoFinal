@@ -9,7 +9,7 @@
             <tr class="bg-blue-500 text-white">
                 <th class="border border-gray-300 p-2 text-md">ID</th>
                 <th class="border border-gray-300 p-2 text-md">Nombre</th>
-                <th class="border border-gray-300 p-2 text-md">Día</th>
+                <th class="border border-gray-300 p-2 text-md">Días</th>
                 <th class="border border-gray-300 p-2 text-md">Horario</th>
                 <th class="border border-gray-300 p-2 text-md">Profesor</th>
                 <th class="border border-gray-300 p-2 text-md">Fecha Inicio</th>

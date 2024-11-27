@@ -73,6 +73,12 @@ class User extends Authenticatable implements Auditable
 //relacion desde usuario a curso
     public function cursos():HasMany
     {
-        return $this->hasMany(Curso::class, "usuario_id","id");
+        return $this->hasMany(Curso::class, 'usuario_id','id');
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'usuario_id');
+    }
+
 }

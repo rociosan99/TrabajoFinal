@@ -13,7 +13,7 @@
 
         <!-- Etiqueta Día -->
         <div class="mb-4">
-            <label for="dia" class="block text-gray-700 font-semibold mb-2">Día</label>
+            <label for="dia" class="block text-gray-700 font-semibold mb-2">Días</label>
             <input wire:model="dia" type="text" name="dia" id="dia" 
                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                    placeholder="Ingrese el día del curso">

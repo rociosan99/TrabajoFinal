@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Curso extends Model
 {
     use HasFactory;
@@ -29,21 +30,20 @@ class Curso extends Model
         'fecha_fin' => 'date',
     ];
 
-    /**
-     * Relación con el modelo Usuario.
-     * Un curso pertenece a un usuario (profesor).
-     */
+    /*Relación con el modelo Usuario Un curso pertenece a un usuario (profesor)*/
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id');
     }
 
-    /**
-     * Relación con el modelo Examen.
-     * Un curso puede tener muchos exámenes.
-     */
+    /*Relación con el modelo Examen un curso puede tener muchos exámenes.*/
     public function examenes(): HasMany
     {
         return $this->hasMany(Examen::class, 'curso_id', 'id');
+    }
+
+    public function clases(): HasMany
+    {
+        return $this->hasMany(Clase::class, 'curso_id', 'id');
     }
 }
