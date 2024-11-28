@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class Clase extends Model
 {
@@ -17,8 +18,7 @@ class Clase extends Model
         'curso_id',
     ];
 
-    /**Relación con el modelo Curso Una clase pertenece a un curso.*/
-
+    /** Relación con el modelo Curso */
     public function curso(): BelongsTo
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
@@ -29,5 +29,6 @@ class Clase extends Model
         return $this->hasMany(Asistencia::class, 'clase_id');
     }
 
+    // Esto se usa para manejar correctamente las fechas
+    protected $dates = ['fecha_clase']; // Carbon maneja automáticamente las fechas.
 }
-

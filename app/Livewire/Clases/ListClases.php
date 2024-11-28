@@ -2,117 +2,69 @@
 
 namespace App\Livewire\Clases;
 
-use App\Models\Clase;
 use Livewire\Component;
+use App\Models\Clase;
 use Carbon\Carbon; // Importamos Carbon
 
 class ListClases extends Component
 {
-    // Definir las variables públicas para que estén disponibles en la vista
     public $clases;
+    public $editingClase = null;
+    public $fecha_clase;
+    public $hora_inicio;
+    public $hora_fin;
+    public $curso_id;
 
-    // Si tienes un estado de edición o alguna otra variable
-    public $editingClase = false;
-    public $clase_id, $nombre, $dia, $horario, $nivel, $fecha_inicio, $fecha_fin, $descripcion;
+    // Propiedad para identificar si estamos agregando o editando
+    public $isAddingClase = false;
 
     public function mount()
     {
-        // Cargar todas las clases al inicializar el componente
+        // Cargar todas las clases al inicio
         $this->clases = Clase::all();
-
-        // Formatear las fechas de cada clase usando Carbon
-        foreach ($this->clases as $clase) {
-            $clase->fecha_inicio = Carbon::parse($clase->fecha_inicio)->format('d/m/Y'); // Formato de fecha deseado
-            $clase->fecha_fin = Carbon::parse($clase->fecha_fin)->format('d/m/Y'); // Formato de fecha deseado
-        }
     }
 
-    // Método para eliminar una clase
-    public function deleteClase($id)
+    public function startEdit($id)
     {
-        // Buscar la clase por ID y eliminarla
+        // Iniciar el proceso de edición
         $clase = Clase::find($id);
         if ($clase) {
-            $clase->delete();
-        }
-
-        // Actualizar la lista de clases
-        $this->clases = Clase::all();
-
-        // Formatear nuevamente las fechas después de la eliminación
-        foreach ($this->clases as $clase) {
-            $clase->fecha_inicio = Carbon::parse($clase->fecha_inicio)->format('d/m/Y');
-            $clase->fecha_fin = Carbon::parse($clase->fecha_fin)->format('d/m/Y');
-        }
-    }
-
-    // Método para editar una clase (puedes expandirlo según tu lógica)
-    public function editClase($id)
-    {
-        $clase = Clase::find($id);
-        if ($clase) {
-            // Cargar los datos de la clase en las variables del componente
-            $this->clase_id = $clase->id;
-            $this->nombre = $clase->nombre;
-            $this->dia = $clase->dia;
-            $this->horario = $clase->horario;
-            $this->fecha_inicio = $clase->fecha_inicio;
-            $this->fecha_fin = $clase->fecha_fin;
-            $this->descripcion = $clase->descripcion;
-            $this->editingClase = true;
-
-            // Convertir las fechas a un formato adecuado para el formulario
-            $this->fecha_inicio = Carbon::parse($this->fecha_inicio)->format('d/m/Y');
-            $this->fecha_fin = Carbon::parse($this->fecha_fin)->format('d/m/Y');
-        }
-    }
-
-    // Método para guardar los cambios de una clase (actualización)
-    public function updateClase()
-    {
-        $clase = Clase::find($this->clase_id);
-        if ($clase) {
-            // Actualizar los datos de la clase
-            $clase->nombre = $this->nombre;
-            $clase->dia = $this->dia;
-            $clase->horario = $this->horario;
-            $clase->nivel = $this->nivel;
-            // Convertir las fechas antes de guardarlas
-            $clase->fecha_inicio = Carbon::parse($this->fecha_inicio)->format('Y-m-d'); // Formato para la base de datos
-            $clase->fecha_fin = Carbon::parse($this->fecha_fin)->format('Y-m-d'); // Formato para la base de datos
-            $clase->descripcion = $this->descripcion;
-            $clase->save();
-
-            // Actualizar la lista de clases
-            $this->clases = Clase::all();
-
-            // Formatear nuevamente las fechas después de la actualización
-            foreach ($this->clases as $clase) {
-                $clase->fecha_inicio = Carbon::parse($clase->fecha_inicio)->format('d/m/Y');
-                $clase->fecha_fin = Carbon::parse($clase->fecha_fin)->format('d/m/Y');
-            }
-
-            // Resetear el estado de edición
+            $this->editingClase = $clase;
+            $this->fecha_clase = Carbon::parse($clase->fecha_clase)->format('d/m/Y');
+            $this->hora_inicio = $clase->hora_inicio;
+            $this->hora_fin = $clase->hora_fin;
+            $this->curso_id = $clase->curso_id;
+            $this->isAddingClase = false;
+        } else {
             $this->resetForm();
         }
     }
 
-    // Método para resetear el formulario de edición
+    public function deleteClase($id)
+    {
+        // Eliminar clase de la base de datos y actualizar la lista
+        $clase = Clase::find($id);
+        if ($clase) {
+            $clase->delete();
+            $this->clases = Clase::all();
+        }
+    }
+
     public function resetForm()
     {
-        $this->clase_id = null;
-        $this->nombre = '';
-        $this->dia = '';
-        $this->horario = '';
-        $this->nivel = '';
-        $this->fecha_inicio = null;
-        $this->fecha_fin = null;
-        $this->descripcion = '';
-        $this->editingClase = false;
+        // Resetear todos los campos y el estado de la vista
+        $this->editingClase = null;
+        $this->fecha_clase = '';
+        $this->hora_inicio = '';
+        $this->hora_fin = '';
+        $this->curso_id = '';
+        $this->isAddingClase = false;
     }
 
     public function render()
     {
-        return view('livewire.clases.list-clases');
+        return view('livewire.clases.list-clases', [
+            'clases' => $this->clases,
+        ]);
     }
 }

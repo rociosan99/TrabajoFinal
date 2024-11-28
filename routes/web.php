@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RoleRedirectController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Clases\ClasesController;
+use Carbon\Carbon;
+use App\Http\Controllers\ClaseController;
 
 // Ruta para la página de inicio
 Route::get('/', function () {
@@ -70,5 +72,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('clases/clases', [ClasesController::class, 'clases_index'])->name('clases-clases-index');
     Route::get('clases/clases/create', [ClasesController::class, 'clases_create'])->name('clases-clases-create');
-
+    Route::get('clases/clases/edit/{id}',[ClasesController::class, 'clases_edit'])->name('clases-clases-edit');
 });
