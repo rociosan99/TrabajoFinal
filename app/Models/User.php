@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,8 +11,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable implements Auditable 
+
+
+class User extends Authenticatable implements Auditable
 {
     use HasApiTokens;
     use HasFactory;
@@ -23,11 +25,6 @@ class User extends Authenticatable implements Auditable
     use HasRoles;
     use \OwenIt\Auditing\Auditable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'apellido',
@@ -37,11 +34,6 @@ class User extends Authenticatable implements Auditable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -49,20 +41,10 @@ class User extends Authenticatable implements Auditable
         'two_factor_secret',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
     protected $appends = [
         'profile_photo_url',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -70,15 +52,22 @@ class User extends Authenticatable implements Auditable
             'password' => 'hashed',
         ];
     }
-//relacion desde usuario a curso
-    public function cursos():HasMany
+
+    // Relación con los cursos (de alumno)
+    public function cursos()
     {
-        return $this->hasMany(Curso::class, 'usuario_id','id');
+        return $this->belongsToMany(Curso::class, 'alumnoxcurso', 'user_id', 'curso_id')
+                    ->withTimestamps();
     }
 
+    // Relación con las asistencias
     public function asistencias()
     {
-        return $this->hasMany(Asistencia::class, 'usuario_id');
+        return $this->hasMany(Asistencia::class, 'user_id');
     }
 
+    public function alumnoxcurso()
+    {
+        return $this->hasMany(AlumnoxCurso::class, 'user_id', 'id');
+    }
 }

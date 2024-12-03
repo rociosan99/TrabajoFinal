@@ -48,7 +48,7 @@
                     Asistencia
                 </x-nav-link>
 
-                <x-nav-link href="" :active="request()->routeIs('')">
+                <x-nav-link href="{{route('justificacion-inasistencia')}}" :active="request()->routeIs('')">
                     Justificacion de Inasistencia
                 </x-nav-link>
 

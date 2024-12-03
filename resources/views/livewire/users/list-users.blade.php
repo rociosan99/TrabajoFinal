@@ -26,7 +26,7 @@
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
                             <a href="{{ route('users-users-edit', $user->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
-                            <button wire:click="deleteUser({{ $user->id }})" wire:confirm="Desea borrar este Usuario" class="text-red-600 hover:text-red-900">Eliminar</button>
+                            <button wire:click="deleteUser({{ $user->id }})" wire:confirm="Desea dar de baja a este usuario" class="text-red-600 hover:text-red-900">Dar de baja</button>
                         </div>
                     </td>
                 </tr>

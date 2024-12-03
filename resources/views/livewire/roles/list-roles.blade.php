@@ -22,7 +22,7 @@
                 <td class="border border-gray-300 p-2 text-center">
                     <div class="flex justify-center items-center gap-4">
                         <button wire:click="startEdit({{ $role->id }})" class="text-blue-600 hover:text-blue-900">Editar</button>
-                        <button wire:click="deleteRole({{ $role->id }})" wire:confirm="Desea borrar este Rol" class="text-red-600 hover:text-red-900">Eliminar</button>
+                        <button wire:click="deleteRole({{ $role->id }})" wire:confirm="Desea dar de baja este Rol" class="text-red-600 hover:text-red-900">Dar de baja</button>
                     </div>
                 </td>
             </tr>

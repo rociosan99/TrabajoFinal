@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RoleRedirectController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Clases\ClasesController;
+use App\Http\Controllers\JustificacionInasistenciaController;
 use Carbon\Carbon;
 use App\Http\Controllers\ClaseController;
+
+
 
 // Ruta para la página de inicio
 Route::get('/', function () {
@@ -60,8 +63,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get("cursos/cursos", [CursoController::class, "cursos_index"])->name("cursos-cursos-index");
     Route::get("cursos/cursos/create", [CursoController::class, "cursos_create"])->name("cursos-cursos-create");
     Route::get('cursos/cursos/edit/{id}', [CursoController::class, 'cursos_edit'])->name('cursos-cursos-edit');
-});
+    Route::get('cursos/cursos/matriculacion/{cursoId}', [CursoController::class, 'create_matriculacion'])->name('cursos-cursos-matriculacion');
+    //Route::get('cursos/cursos/alumnos/{cursoId}', [CursoController::class, 'ver_alumnos'])->name('cursos-cursos-alumnos');
 
+});
 // Rutas para examenes
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('examenes/examenes', [ExamenController::class, 'examenes_index'])->name('examenes-examenes-index');
@@ -74,3 +79,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('clases/clases/create', [ClasesController::class, 'clases_create'])->name('clases-clases-create');
     Route::get('clases/clases/edit/{id}',[ClasesController::class, 'clases_edit'])->name('clases-clases-edit');
 });
+
+// Rutas para justificacion
+    Route::get('justificacion-inasistencia', [JustificacionInasistenciaController::class, 'justificacion'])->name('justificacion-inasistencia');
+
