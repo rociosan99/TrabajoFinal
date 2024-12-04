@@ -1,6 +1,14 @@
 <div>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold text-gray-700 mb-4">Lista de Usuarios</h1>
+        
+        <!-- Mostrar mensaje de error si el alumno ya está matriculado en otro curso -->
+        @if (session()->has('error'))
+            <div class="mt-4 bg-red-200 text-red-700 p-2 rounded-md">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <table class="min-w-full bg-white border border-gray-300 rounded-md shadow-lg">
             <thead class="bg-gray-200">
                 <tr>

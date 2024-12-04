@@ -9,12 +9,12 @@
             <tr class="bg-blue-500 text-white">
                 <th class="border border-gray-300 p-2 text-md">ID</th>
                 <th class="border border-gray-300 p-2 text-md">Nombre</th>
-                <th class="border border-gray-300 p-2 text-md">Días</th>
-                <th class="border border-gray-300 p-2 text-md">Horario</th>
+                <th class="border border-gray-300 p-2 text-md" style="width: 15%;">Días</th>
+                <th class="border border-gray-300 p-2 text-md" style="width: 20%;">Horario</th>
                 <th class="border border-gray-300 p-2 text-md">Profesor</th>
                 <th class="border border-gray-300 p-2 text-md">Fecha Inicio</th>
                 <th class="border border-gray-300 p-2 text-md">Fecha Fin</th>
-                <th class="border border-gray-300 p-2 text-md">Descripción</th>
+                <th class="border border-gray-300 p-2 text-md" style="width: 10%;">Descripción</th>
                 <th class="border border-gray-300 p-2 text-md">Acciones</th>
             </tr>
         </thead>
@@ -23,8 +23,16 @@
                 <tr wire:key="{{$curso->id}}" class="bg-white border-b hover:bg-gray-50">
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->id }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->nombre }}</td>
-                    <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->dia }}</td>
-                    <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->horario }}</td>
+                    <td class="border border-gray-300 p-2 text-md text-black">
+                        @foreach($curso->horariosCurso as $horario)
+                            <div>{{ ucfirst($horario->dia_semana) }}</div> <!-- Asegúrate de que los días estén bien capitalizados -->
+                        @endforeach
+                    </td>
+                    <td class="border border-gray-300 p-2 text-md text-black">
+                        @foreach($curso->horariosCurso as $horario)
+                            <div>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_fin)->format('H:i') }}</div>
+                        @endforeach
+                    </td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->usuario->name }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->fecha_inicio->format("d-m-Y")}}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->fecha_fin->format("d-m-Y") }}</td>
@@ -33,7 +41,7 @@
                         <div class="flex justify-center items-center gap-4">
                             <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
                             <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900">Matricular</a>
-                            <a href="" class="text-indigo-600 hover:text-indigo-900">Ver Alumnos</a>
+                            <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900">Ver Alumnos</a>
                             <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900">Dar de baja</button>
                         </div>
                     </td>

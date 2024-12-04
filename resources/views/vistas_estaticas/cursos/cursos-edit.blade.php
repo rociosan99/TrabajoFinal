@@ -7,5 +7,5 @@
 </ul>
 @endsection
 @section("view_content")
-@livewire("cursos.edit-curso",['id'=>$id]) 
+@livewire("cursos.edit-curso",['cursoId'=>$cursoId]) 
 @endsection

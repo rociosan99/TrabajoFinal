@@ -6,6 +6,11 @@
         </a>
     </div>
 
+    <!-- Mostrar cantidad de clases -->
+    <div class="p-4">
+        <h3 class="text-lg font-medium text-gray-900">Cantidad de clases: {{ $clases->count() }}</h3>
+    </div>
+
     <!-- Tabla para mostrar las clases -->
     <table class="w-full border-collapse border border-gray-300 bg-white">
         <thead>
@@ -56,9 +61,12 @@
                                     Editar Clase
                                 </h3>
                                 <div class="mt-2">
+                                    <!-- Entrada para fecha, hora de inicio y hora de fin -->
                                     <input type="date" wire:model="fecha_clase" class="border rounded p-2 w-full">
                                     <input type="time" wire:model="hora_inicio" class="border rounded p-2 w-full mt-2">
                                     <input type="time" wire:model="hora_fin" class="border rounded p-2 w-full mt-2">
+                                    
+                                    <!-- Mensajes de error -->
                                     @error('fecha_clase') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     @error('hora_inicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     @error('hora_fin') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

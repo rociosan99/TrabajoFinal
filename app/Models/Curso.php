@@ -49,9 +49,9 @@ class Curso extends Model
     }
 
     public function alumnos()
-{
+    {
     return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id');
-}
+    }
 
     /* Relación con la tabla pivote AlumnoxCurso: Un curso puede tener muchos alumnos */
     public function alumnoxCursos()
@@ -64,5 +64,10 @@ class Curso extends Model
     {
         return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id')
                     ->withTimestamps();
+    }
+
+    public function horariosCurso(): HasMany
+    {
+    return $this->hasMany(HorariosCurso::class, 'id_curso', 'id');
     }
 }

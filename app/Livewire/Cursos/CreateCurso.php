@@ -3,67 +3,118 @@
 namespace App\Livewire\Cursos;
 
 use Livewire\Component;
-use App\Models\Curso; // Asegúrate de que el modelo de Curso esté correctamente importado
+use App\Models\Curso;
 use App\Models\User;
+use App\Models\HorariosCurso;
+use Illuminate\Support\Collection;
 
 class CreateCurso extends Component
 {
-    // Definir las propiedades que se usan en el formulario
+    public $dias_select=['lunes','martes','miercoles','jueves','viernes'];
+
+    // Propiedades del formulario
     public $nombre;
-    public $dia;
-    public $horario;
+    public Collection $dias;
+    public $hora_inicio;
+    public $hora_fin;
     public $fecha_inicio;
     public $fecha_fin;
     public $descripcion;
     public $profesor;
 
-    public $misprofesores;//almacenamiento de profesores
+    //error dias
+    public $dias_is_empty;
 
-    public function mount(){
-        $this->misprofesores = User::role('Profesor')->get(); 
+    public $misprofesores; // Almacena la lista de profesores
 
-        //dd($this->misprofesores);
-    }//me trae el rol de profesor
+    public function mount()
+    {
+        $this->misprofesores = User::role('Profesor')->get(); // Traer profesores con rol específico
 
-    // Validaciones para los campos del formulario
+        //crear la estructura inicial del input de dias con horas
+        $this->fill([
+            'dias'=>collect([]),
+        ]);
+
+        $this->dias_is_empty = false;
+    }
+
+    //agregar dias al input
+    public function addInput(){
+
+        if (count($this->dias) < 5) {
+            $this->dias->push([
+                'dia'=> '',
+                'hora_inicio'=>'',
+                'hora_fin'=>'',
+            ]); 
+
+            return;
+        } else {
+
+            return;
+        }
+  
+    }
+
+
+    // Validaciones
     protected $rules = [
         'nombre' => 'required|string|max:255',
-        'dia' => 'required|string|max:255',
-        'horario' => 'required|date_format:H:i',
         'fecha_inicio' => 'required|date',
-        'fecha_fin' => 'required|date|after:fecha_inicio', // Asegura que fecha_fin sea después de fecha_inicio
-        'descripcion' => 'nullable|string|max:1000', // Descripción es opcional
+        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        'descripcion' => 'nullable|string|max:1000',
         'profesor' => 'required',
+        'dias.*.dia'=>'required',
+        'dias.*.hora_inicio' => 'required',
+        'dias.*.hora_fin' =>'required',
     ];
 
-    // Método para guardar el curso
+    protected $messages=[
+        'nombre.required' => 'el nombre es obligatorio',
+        'hora_inicio.required' => 'la hora de inicio es requerida',
+        'hora_fin.required' => 'la hora de din es requerida',
+        'fecha_inicio.required' => 'la fecha de inicio es requerida',
+        'fecha_fin.required' => 'la fecha de fin es requerida',
+        'descripcion' => '',
+        'profesor.required' => 'el profesor es requerido',
+        'dias.*.dia.required'=>'debe elegir un dia',
+        'dias.*.hora_inicio.required' => 'Debe elegir un horario de inicio',
+        'dias.*.hora_fin.required' =>'Debe elegir un horario de fin',
+    ];
+
     public function save()
     {
-        // Validar los datos
-        $this->validate();
-
-        // Convertir el horario al formato correcto (HH:MM:SS) si es necesario
-        if ($this->horario) {
-            // Si el horario tiene formato de hora con punto como '13.30', lo convertimos
-            $this->horario = str_replace('.', ':', $this->horario) . ":00";
+        if (count($this->dias) == 0){
+            $this->dias_is_empty=true;
+        } else {
+            $this->dias_is_empty=false;
         }
 
-        // Crear el curso en la base de datos
-        Curso::create([
+        // Validar
+        $validated = $this->validate();
+
+        // Crear el curso
+        $curso = Curso::create([
             'nombre' => $this->nombre,
-            'dia' => $this->dia,
-            'horario' => $this->horario,
             'fecha_inicio' => $this->fecha_inicio,
             'fecha_fin' => $this->fecha_fin,
             'descripcion' => $this->descripcion,
             'usuario_id' => $this->profesor,
-            
         ]);
 
-        // Mensaje de éxito
-        session()->flash('message', 'Curso creado exitosamente!');
+        // Crear los horarios asociados al curso
+        foreach ($this->dia as $dia) {
+            HorariosCurso::create([
+                'id_curso' => $curso->id,
+                'hora_inicio' => $this->hora_inicio,
+                'hora_fin' => $this->hora_fin,
+                'dia_semana' => $dia,
+            ]);
+        }
 
-        // Redirigir al usuario a la página principal de cursos
+        // Redirección con mensaje de éxito
+        session()->flash('message', 'Curso creado exitosamente.');
         return redirect()->route('cursos-cursos-index');
     }
 
@@ -72,4 +123,3 @@ class CreateCurso extends Component
         return view('livewire.cursos.create-curso');
     }
 }
-

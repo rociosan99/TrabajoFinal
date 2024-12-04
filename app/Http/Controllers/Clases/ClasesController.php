@@ -10,10 +10,11 @@ use App\Models\Clase;
 
 class ClasesController extends Controller
 {
-    // ClasesController.php
+    
     public function clases_index()
-    {   
-        return view("vistas_estaticas.clases.clases-index");
+    {
+  
+    return view("vistas_estaticas.clases.clases-index");
     }
 
     public function clases_create()
