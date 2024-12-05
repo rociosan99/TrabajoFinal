@@ -93,6 +93,8 @@ class CreateCurso extends Component
 
         // Validar
         $validated = $this->validate();
+       
+
 
         // Crear el curso
         $curso = Curso::create([
@@ -104,12 +106,12 @@ class CreateCurso extends Component
         ]);
 
         // Crear los horarios asociados al curso
-        foreach ($this->dia as $dia) {
+        foreach ($this->dias as $dia) {
             HorariosCurso::create([
                 'id_curso' => $curso->id,
-                'hora_inicio' => $this->hora_inicio,
-                'hora_fin' => $this->hora_fin,
-                'dia_semana' => $dia,
+                'hora_inicio' => $dia['hora_inicio'],
+                'hora_fin' => $dia['hora_fin'],
+                'dia_semana' => $dia['dia'],
             ]);
         }
 

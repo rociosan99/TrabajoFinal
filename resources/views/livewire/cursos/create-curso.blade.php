@@ -27,7 +27,9 @@
                     <!-- Días -->
                     <div class="mb-4 grow">
                         <label for="dia" class="block text-gray-700 font-semibold mb-2">Dia</label>
-                        <select id="dia_{{$key}}_dia" wire:model.defer="dias.{{$key}}.dia" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <select id="dias_{{$key}}_dia" wire:model.defer="dias.{{$key}}.dia" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option @selected(true) value="">seleccione un dia</option>
+            
                             @foreach($dias_select as $dia_select)
                                 <option value="{{$dia_select}}">{{$dia_select}}</option>
                             @endforeach
