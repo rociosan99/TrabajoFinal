@@ -40,14 +40,6 @@
                     </x-nav-link>
                 @endcan
 
-                <x-nav-link href="{{ route('clases-clases-index') }}" :active="request()->routeIs('clases-*')">
-                    Clases
-                </x-nav-link>
-
-                <x-nav-link href="{{route('asistencias-asistencias-index')}}" :active="request()->routeIs('')">
-                    Asistencia
-                </x-nav-link>
-
                 <x-nav-link href="" :active="request()->routeIs('')">
                     Justificacion de Inasistencia
                 </x-nav-link>

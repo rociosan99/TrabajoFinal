@@ -21,7 +21,6 @@
             @endif
 
             @foreach ( $dias as $key => $dia )
-
                 <!-- horarios por dia -->
                 <div class="mb-4 flex gap-1 justify-start items-center border border-neutral-200 p-1">
                     <!-- Días -->
@@ -29,7 +28,6 @@
                         <label for="dia" class="block text-gray-700 font-semibold mb-2">Dia</label>
                         <select id="dias_{{$key}}_dia" wire:model.defer="dias.{{$key}}.dia" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option @selected(true) value="">seleccione un dia</option>
-            
                             @foreach($dias_select as $dia_select)
                                 <option value="{{$dia_select}}">{{$dia_select}}</option>
                             @endforeach
@@ -52,8 +50,17 @@
                             class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         @error('dias.'. $key . '.hora_fin') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
                     </div>
-                </div>
 
+                    <!-- Icono de eliminar -->
+                    <div class="ml-2">
+                        <button type="button" wire:click="removeInput({{ $key }})" 
+                                class="text-red-600 hover:text-red-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             @endforeach
             
             <!-- Fecha de Inicio -->

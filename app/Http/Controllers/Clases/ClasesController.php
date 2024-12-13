@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers\Clases;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Clases;
 use App\Models\Clase;
+use App\Models\Curso;
 
 class ClasesController extends Controller
 {
-    
-    public function clases_index()
+    public function clases_index($cursoId)
     {
-  
-    return view("vistas_estaticas.clases.clases-index");
+        $curso = Curso::with('clases')->where('id', $cursoId)->firstOrFail();
+        
+        return view("vistas_estaticas.clases.clases-index", compact('curso')); 
     }
 
-    public function clases_create()
-    {
-        return view("vistas_estaticas.clases.clases-create");
-    }
 
-    public function clases_edit($id)
-    {
-        return view('vistas_estaticas.clases.clases-edit',["id"=>$id]);
-    }
 
 }

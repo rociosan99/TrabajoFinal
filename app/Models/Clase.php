@@ -17,7 +17,12 @@ class Clase extends Model
         'hora_fin',
         'curso_id',
     ];
-
+    // Asegura que los campos de fecha sean tratados como instancias de Carbon
+    protected $casts = [
+        'fecha_clase' => 'datetime',
+        'hora_inicio' => 'datetime',
+        'hora_fin' => 'datetime',
+    ];
     /** Relación con el modelo Curso */
     public function curso(): BelongsTo
     {
@@ -29,6 +34,5 @@ class Clase extends Model
         return $this->hasMany(Asistencia::class, 'clase_id');
     }
 
-    // Esto se usa para manejar correctamente las fechas
-    protected $dates = ['fecha_clase']; // Carbon maneja automáticamente las fechas.
+    
 }

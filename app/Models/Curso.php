@@ -43,9 +43,10 @@ class Curso extends Model
     }
 
     /* Relación con el modelo Clase: un curso puede tener muchas clases */
-    public function clases(): HasMany
+   // Curso.php
+    public function clases()
     {
-        return $this->hasMany(Clase::class, 'curso_id', 'id');
+        return $this->hasMany(Clase::class);
     }
 
     public function alumnos()

@@ -25,7 +25,7 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->nombre }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">
                         @foreach($curso->horariosCurso as $horario)
-                            <div>{{ ucfirst($horario->dia_semana) }}</div> <!-- Asegúrate de que los días estén bien capitalizados -->
+                            <div>{{ ucfirst($horario->dia_semana) }}</div>
                         @endforeach
                     </td>
                     <td class="border border-gray-300 p-2 text-md text-black">
@@ -39,10 +39,31 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->descripcion }}</td>
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
-                            <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a>
-                            <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900">Matricular</a>
-                            <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900">Ver Alumnos</a>
-                            <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900">Dar de baja</button>
+                            <!-- Editar -->
+                            <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 relative group">
+                                <i class="fas fa-edit"></i>
+                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Editar Curso</span>
+                            </a>
+                            <!-- Matricular -->
+                            <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900 relative group">
+                                <i class="fas fa-user-plus"></i>
+                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Matricular en Curso</span>
+                            </a>
+                            <!-- Ver Alumnos -->
+                            <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900 relative group">
+                                <i class="fas fa-users"></i>
+                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Ver Alumnos</span>
+                            </a>
+                            <!-- Dar de baja -->
+                            <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900 relative group">
+                                <i class="fas fa-trash-alt"></i>
+                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Dar de Baja</span>
+                            </button>
+                            <!-- Ver Clases -->
+                            <a href="{{ route('clases-clases-index', ['cursoId' => $curso->id]) }}" class="text-indigo-600 hover:text-indigo-900 relative group">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Ver Clases</span>
+                            </a>
                         </div>
                     </td>
                 </tr>
@@ -54,3 +75,4 @@
         <!-- Aquí permanece el código para editar cursos -->
     @endif
 </div>
+
