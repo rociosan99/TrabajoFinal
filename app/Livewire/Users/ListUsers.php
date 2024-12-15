@@ -4,27 +4,68 @@ namespace App\Livewire\Users;
 
 use Livewire\Component;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class ListUsers extends Component
 {
-    public $users;
+    public $users = [];  // Solo los datos de los usuarios
+    public $pagination = [];  // Información de la paginación
     public $editingUser = null;
     public $name;
     public $email;
-    public $creatingUser;
-    
-    // Propiedad para identificar si estamos agregando o editando
     public $isAddingUser = false;
+    public $roleFilter = '';  // Propiedad para el filtro de rol
+    public $search = '';  // Para realizar una búsqueda por nombre
 
+    // Método mount para cargar los usuarios
     public function mount()
     {
-        // Cargar todos los usuarios al inicio
-        $this->users = User::all();
+        $this->loadUsers();
     }
 
+    // Método para cargar los usuarios paginados
+    public function loadUsers()
+    {
+        $query = User::query();
+
+        if ($this->roleFilter) {
+            $query->whereHas('roles', function ($q) {
+                $q->where('name', $this->roleFilter);
+            });
+        }
+
+        if ($this->search) {
+            $query->where('name', 'like', '%' . $this->search . '%');
+        }
+
+        // Cargar los datos de los usuarios y la información de la paginación
+        $paginator = $query->paginate(10);
+        $this->users = $paginator->items();  // Solo los usuarios
+        $this->pagination = [
+            'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(),
+            'per_page' => $paginator->perPage(),
+            'total' => $paginator->total(),
+        ];
+    }
+
+    // Método que se ejecuta cuando se cambia el filtro de rol
+    public function updatedRoleFilter()
+    {
+        $this->resetPage();  // Resetear la página de la paginación
+        $this->loadUsers();
+    }
+
+    // Método para aplicar el filtro por rol
+    public function updatedSearch()
+    {
+        $this->resetPage();  // Resetear la página de la paginación
+        $this->loadUsers();
+    }
+
+    // Método para editar un usuario
     public function startEdit($id)
     {
-        // Iniciar el proceso de edición
         $user = User::find($id);
         if ($user) {
             $this->editingUser = $user;
@@ -35,59 +76,20 @@ class ListUsers extends Component
             $this->resetForm();
         }
     }
-    /*
-    public function updateUser()
-    {
-        // Validación y actualización del usuario
-        if ($this->editingUser) {
-            $this->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:users,email,' . $this->editingUser->id,
-            ]);
 
-            $this->editingUser->update([
-                'name' => $this->name,
-                'email' => $this->email,
-            ]);
-
-            $this->resetForm();
-            $this->users = User::all();
-        }
-    }*/
-
-    /*
-    public function addUser()
-    {
-        // Validación de datos para agregar un nuevo usuario
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-        ]);
-
-        // Crear el nuevo usuario
-        User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-        ]);
-
-        // Actualizar la lista de usuarios y resetear el formulario
-        $this->users = User::all();
-        $this->resetForm();
-    }*/
-
+    // Método para eliminar un usuario
     public function deleteUser($id)
     {
-        // Eliminar usuario de la base de datos y actualizar la lista
         $user = User::find($id);
         if ($user) {
             $user->delete();
-            $this->users = User::all();
+            $this->loadUsers();  // Recargar la lista de usuarios
         }
     }
 
+    // Resetear el formulario
     public function resetForm()
     {
-        // Resetear todos los campos y el estado de la vista
         $this->editingUser = null;
         $this->name = '';
         $this->email = '';
@@ -96,6 +98,8 @@ class ListUsers extends Component
 
     public function render()
     {
-        return view('livewire.users.list-users');
+        $roles = Role::all();  // Obtener todos los roles disponibles para el filtro
+
+        return view('livewire.users.list-users', compact('roles'));
     }
 }

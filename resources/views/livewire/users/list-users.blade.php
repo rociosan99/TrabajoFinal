@@ -4,6 +4,19 @@
             Agregar Usuario
         </a>
     </div>
+
+    <!-- Filtro por rol y búsqueda -->
+    <div class="flex items-center gap-4 p-4">
+        <input type="text" wire:model="search" placeholder="Buscar por nombre" class="border rounded p-2">
+        
+        <select wire:model="roleFilter" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"">
+            <option value="">Seleccionar Rol</option>
+            @foreach($roles as $role)
+                <option value="{{ $role->name }}">{{ $role->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <table class="w-full border-collapse border border-gray-300 bg-white">
         <thead>
             <tr class="bg-blue-500 text-white">
@@ -33,6 +46,21 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Paginación -->
+    <div class="p-4">
+        <nav class="flex justify-between items-center">
+            <span>Mostrando {{ $pagination['current_page'] }} de {{ $pagination['last_page'] }} páginas</span>
+            <div>
+                @if($pagination['current_page'] > 1)
+                    <button wire:click="loadUsers({{ $pagination['current_page'] - 1 }})">Anterior</button>
+                @endif
+                @if($pagination['current_page'] < $pagination['last_page'])
+                    <button wire:click="loadUsers({{ $pagination['current_page'] + 1 }})">Siguiente</button>
+                @endif
+            </div>
+        </nav>
+    </div>
 
     @if ($editingUser)
     <div class="fixed z-10 inset-0 overflow-y-auto">
