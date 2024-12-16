@@ -3,11 +3,16 @@
 namespace App\Livewire\Cursos;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Curso;
 
 class ListCursos extends Component
 {
-    public $cursos;
+    use WithPagination;
+
+    public $search = ''; // Variable para la búsqueda
+
+    // Propiedades para editar el curso
     public $editingCurso = null;
     public $nombre;
     public $dia;
@@ -19,15 +24,27 @@ class ListCursos extends Component
     // Propiedad para identificar si estamos agregando o editando
     public $isAddingCurso = false;
 
+    // Inicializar los cursos con paginación y búsqueda
     public function mount()
     {
-        // Cargar todos los cursos al inicio
-        $this->cursos = Curso::with('horariosCurso')->get(); // Cargar los horarios con los cursos
+        $this->cursos = Curso::with('horariosCurso')->paginate(10);
+    }
+
+    // Método para actualizar la búsqueda
+    public function updatingSearch()
+    {
+        $this->resetPage(); // Restablecer a la primera página cuando cambia la búsqueda
+    }
+
+    // 🔍 **Método para buscar los cursos (usado por el botón de la lupa)**
+    public function buscarCursos()
+    {
+        // Este método no necesita hacer nada más porque la búsqueda ya está conectada con la propiedad $search
+        $this->render();
     }
 
     public function startEdit($id)
     {
-        // Iniciar el proceso de edición
         $curso = Curso::find($id);
         if ($curso) {
             $this->editingCurso = $curso;
@@ -36,11 +53,10 @@ class ListCursos extends Component
             $this->fecha_fin = $curso->fecha_fin;
             $this->descripcion = $curso->descripcion;
             $this->isAddingCurso = false;
-            // Asignar días y horarios para mostrar en el formulario
-            $this->dia = $curso->horariosCurso->pluck('dia_semana')->toArray(); // Obtener los días
+            $this->dia = $curso->horariosCurso->pluck('dia_semana')->toArray();
             $this->horario = $curso->horariosCurso->map(function ($horario) {
                 return $horario->hora_inicio . ' - ' . $horario->hora_fin;
-            })->toArray(); // Obtener los horarios
+            })->toArray();
         } else {
             $this->resetForm();
         }
@@ -48,19 +64,16 @@ class ListCursos extends Component
 
     public function deleteCurso($id)
     {
-        // Eliminar curso de la base de datos y actualizar la lista
         $curso = Curso::find($id);
         if ($curso) {
             $curso->delete();
-            $this->cursos = Curso::with('horariosCurso')->get(); // Actualizar lista
+            $this->cursos = Curso::with('horariosCurso')->paginate(10);
         }
     }
 
     public function saveEdit()
     {
-        // Guardar cambios en el curso
         if ($this->editingCurso) {
-            // Actualizar el curso con los nuevos datos
             $this->editingCurso->update([
                 'nombre' => $this->nombre,
                 'fecha_inicio' => $this->fecha_inicio,
@@ -68,10 +81,8 @@ class ListCursos extends Component
                 'descripcion' => $this->descripcion,
             ]);
 
-            // Eliminar los horarios existentes y agregar los nuevos
-            $this->editingCurso->horariosCurso()->delete(); // Eliminar horarios anteriores
+            $this->editingCurso->horariosCurso()->delete();
 
-            // Guardar los nuevos horarios
             foreach ($this->dia as $index => $dia) {
                 $this->editingCurso->horariosCurso()->create([
                     'dia_semana' => $dia,
@@ -80,17 +91,13 @@ class ListCursos extends Component
                 ]);
             }
 
-            // Actualizar la lista de cursos
-            $this->cursos = Curso::with('horariosCurso')->get(); // Recargar cursos con los horarios actualizados
-
-            // Resetear el formulario y el estado
+            $this->cursos = Curso::with('horariosCurso')->paginate(10);
             $this->resetForm();
         }
     }
 
     public function resetForm()
     {
-        // Resetear todos los campos y el estado de la vista
         $this->editingCurso = null;
         $this->nombre = '';
         $this->dia = '';
@@ -103,6 +110,10 @@ class ListCursos extends Component
 
     public function render()
     {
-        return view('livewire.cursos.list-cursos');
+        $cursos = Curso::with('horariosCurso')
+                        ->where('nombre', 'like', '%' . $this->search . '%')
+                        ->paginate(10);
+
+        return view('livewire.cursos.list-cursos', compact('cursos'));
     }
 }

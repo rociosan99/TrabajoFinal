@@ -1,4 +1,14 @@
+
 <div class="p-6">
+     <!-- Botón para volver atrás -->
+     <div class="mb-4">
+        <a href="{{ route('cursos-cursos-index') }}" class="inline-flex items-center text-blue-500 hover:text-blue-700 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Volver a cursos
+        </a>
+    </div>
     <!-- Título -->
     <h2 class="text-2xl font-bold mb-4">Matriculación de Alumnos</h2>
 
@@ -8,6 +18,22 @@
             {{ session('error') }}
         </div>
     @endif
+
+    <!-- Campo de búsqueda -->
+    <div class="flex items-center space-x-2 mb-4">
+        <input 
+            type="text" 
+            wire:model.debounce.500ms="search" 
+            placeholder="Buscar por nombre..." 
+            class="p-2 border rounded-md shadow-md w-full"
+        />
+        <button 
+            wire:click="buscarAlumnos" 
+            class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+        >
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
 
     <!-- Tabla de alumnos disponibles -->
     <div class="mb-6">
@@ -29,11 +55,11 @@
                         <td class="border border-gray-300 p-2 text-md">{{ $alumno->name }}</td>
                         <td class="border border-gray-300 p-2 text-md">{{ $alumno->apellido }}</td>
                         <td class="border border-gray-300 p-2 text-md flex items-center justify-center">
-                                <button 
-                                    wire:click="addToList({{ $alumno->id }})" 
-                                    class="flex items-center justify-center text-green-500 text-2xl w-10 h-10">
-                                    &plus;
-                                </button>  
+                            <button 
+                                wire:click="addToList({{ $alumno->id }})" 
+                                class="flex items-center justify-center text-green-500 text-2xl w-10 h-10">
+                                &plus;
+                            </button>  
                         </td>
                     </tr>
                 @endforeach
@@ -80,9 +106,9 @@
             class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
             Matricular
         </button>
-            <a href="{{ route('cursos-cursos-index') }}" 
-               class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">
-                Cancelar
-            </a>
+        <a href="{{ route('cursos-cursos-index') }}" 
+           class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">
+            Cancelar
+        </a>
     </div>
 </div>

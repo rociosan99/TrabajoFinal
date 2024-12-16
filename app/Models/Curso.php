@@ -43,32 +43,33 @@ class Curso extends Model
     }
 
     /* Relación con el modelo Clase: un curso puede tener muchas clases */
-   // Curso.php
-    public function clases()
+    public function clases(): HasMany
     {
         return $this->hasMany(Clase::class);
     }
 
-    public function alumnos()
+    /* Relación muchos a muchos con los usuarios (alumnos) a través de la tabla pivote */
+    public function alumnos(): BelongsToMany
     {
-    return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id');
+        return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id');
     }
 
     /* Relación con la tabla pivote AlumnoxCurso: Un curso puede tener muchos alumnos */
-    public function alumnoxCursos()
+    public function alumnoxCursos(): HasMany
     {
         return $this->hasMany(AlumnoxCurso::class, 'curso_id', 'id');
     }
 
     /* Relación muchos a muchos con los usuarios (alumnos) a través de la tabla pivote */
-    public function usuarios()
+    public function usuarios(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id')
                     ->withTimestamps();
     }
 
+    /* Relación con el modelo HorariosCurso: Un curso puede tener muchos horarios */
     public function horariosCurso(): HasMany
     {
-    return $this->hasMany(HorariosCurso::class, 'id_curso', 'id');
+        return $this->hasMany(HorariosCurso::class, 'id_curso', 'id');
     }
 }

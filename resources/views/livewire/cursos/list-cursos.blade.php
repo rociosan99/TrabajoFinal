@@ -1,9 +1,26 @@
 <div>
-    <div class="w-full flex justify-end items-center gap-4 p-4">
+    <div class="w-full flex justify-between items-center gap-4 p-4">
+        <!-- Filtro de Búsqueda -->
+        <div class="flex items-center space-x-2">
+            <input 
+                type="text" 
+                wire:model.debounce.500ms="search" 
+                placeholder="Buscar por nombre..." 
+                class="p-2 border rounded-md shadow-md w-64"
+            />
+            <button 
+                wire:click="buscarCursos" 
+                class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            >
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <!-- Botón Agregar Curso -->
         <a href="{{ route('cursos-cursos-create') }}" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded transition-colors shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
             Agregar Curso
         </a>
     </div>
+
     <table class="w-full border-collapse border border-gray-300 bg-white">
         <thead>
             <tr class="bg-blue-500 text-white">
@@ -39,30 +56,20 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->descripcion }}</td>
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
-                            <!-- Editar -->
                             <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 relative group">
                                 <i class="fas fa-edit"></i>
-                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Editar Curso</span>
                             </a>
-                            <!-- Matricular -->
                             <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900 relative group">
                                 <i class="fas fa-user-plus"></i>
-                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Matricular en Curso</span>
                             </a>
-                            <!-- Ver Alumnos -->
                             <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900 relative group">
                                 <i class="fas fa-users"></i>
-                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Ver Alumnos</span>
                             </a>
-                            <!-- Dar de baja -->
                             <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900 relative group">
                                 <i class="fas fa-trash-alt"></i>
-                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Dar de Baja</span>
                             </button>
-                            <!-- Ver Clases -->
                             <a href="{{ route('clases-clases-index', ['cursoId' => $curso->id]) }}" class="text-indigo-600 hover:text-indigo-900 relative group">
                                 <i class="fas fa-chalkboard-teacher"></i>
-                                <span class="absolute bottom-full mb-2 hidden text-sm text-white bg-black rounded px-2 py-1 group-hover:block">Ver Clases</span>
                             </a>
                         </div>
                     </td>
@@ -71,8 +78,7 @@
         </tbody>
     </table>
 
-    @if ($editingCurso)
-        <!-- Aquí permanece el código para editar cursos -->
-    @endif
+    <div class="w-full flex justify-center p-4">
+        {{ $cursos->links('pagination::tailwind') }}
+    </div>
 </div>
-

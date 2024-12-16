@@ -41,13 +41,10 @@
                 @endcan
 
                 <x-nav-link href="" :active="request()->routeIs('')">
-                    Justificacion de Inasistencia
+                    Asistencias
                 </x-nav-link>
 
-                <x-nav-link href="" :active="request()->routeIs('')">
-                   Comunicados
-                </x-nav-link>
-
+                
 
             </div>
         </div>

@@ -27,8 +27,9 @@ class CursoController extends Controller
 
     public function create_matriculacion($cursoId)
     {
-        return view("vistas_estaticas.cursos.matriculacion-create", ["cursoId" => $cursoId]);
+        return view("vistas_estaticas.cursos.create-matriculacion", ["cursoId" => $cursoId]);
     }
+
 
     public function list_alumnos($cursoId)
     {
