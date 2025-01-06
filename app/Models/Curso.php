@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Traits\HasRoles;
 
 class Curso extends Model
 {
     use HasFactory;
 
-    // Atributos asignables masivamente
     protected $fillable = [
         'nombre',
         'dia',
@@ -24,52 +24,49 @@ class Curso extends Model
         'usuario_id',  // Profesor que imparte el curso
     ];
 
-    // Casters para fechas
     protected $casts = [
         'fecha_inicio' => 'date',
         'fecha_fin' => 'date',
     ];
 
-    /* Relación con el modelo Usuario: Un curso pertenece a un usuario (profesor) */
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id');
     }
 
-    /* Relación con el modelo Examen: un curso puede tener muchos exámenes */
     public function examenes(): HasMany
     {
         return $this->hasMany(Examen::class, 'curso_id', 'id');
     }
 
-    /* Relación con el modelo Clase: un curso puede tener muchas clases */
     public function clases(): HasMany
     {
         return $this->hasMany(Clase::class);
     }
 
-    /* Relación muchos a muchos con los usuarios (alumnos) a través de la tabla pivote */
     public function alumnos(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id');
     }
 
-    /* Relación con la tabla pivote AlumnoxCurso: Un curso puede tener muchos alumnos */
     public function alumnoxCursos(): HasMany
     {
         return $this->hasMany(AlumnoxCurso::class, 'curso_id', 'id');
     }
 
-    /* Relación muchos a muchos con los usuarios (alumnos) a través de la tabla pivote */
     public function usuarios(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'alumnoxcurso', 'curso_id', 'user_id')
                     ->withTimestamps();
     }
 
-    /* Relación con el modelo HorariosCurso: Un curso puede tener muchos horarios */
     public function horariosCurso(): HasMany
     {
         return $this->hasMany(HorariosCurso::class, 'id_curso', 'id');
+    }
+
+    public function profesores()
+    {
+        return $this->belongsToMany(User::class, 'profesorxcurso', 'curso_id', 'user_id');
     }
 }

@@ -4,33 +4,51 @@ namespace App\Livewire\Clases;
 
 use Livewire\Component;
 use App\Models\Clase;
-use Carbon\Carbon;
 use App\Models\Curso;
 
 class ListClases extends Component
 {
     public $curso_id;
-    public $clases; // Esta variable pública se usará en la vista
+    public $clases;
+    public $alumnos = [];
+    public $selectedClaseId;
+    public $showModal = false; // Variable para controlar el modal
 
-    /**
-     * Método que se ejecuta al inicializar el componente
-     */
     public function mount($curso_id)
     {
         $this->curso_id = $curso_id;
-        $this->loadClases(); // Llamamos a un método para cargar las clases
+        //die($curso_id);
+        $this->loadClases();
     }
 
-    /**
-     * Método que carga las clases relacionadas al curso
-     */
     public function loadClases()
     {
-        $this->clases = Clase::where('curso_id', $this->curso_id)->get(); // Cargamos las clases por curso
+        $this->clases = Clase::where('curso_id', $this->curso_id)->get();
+    }
+
+    public function loadAlumnos($claseId)
+    {
+        $this->selectedClaseId = $claseId;
+        $clase = Clase::find($claseId);
+
+        if ($clase) {
+            $this->alumnos = $clase->curso->alumnos;
+        } else {
+            $this->alumnos = [];
+        }
+
+        $this->showModal = true; // Mostrar el modal al cargar los alumnos
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false; // Cerrar el modal
     }
 
     public function render()
     {
-        return view('livewire.clases.list-clases');
+        return view('livewire.clases.list-clases', [
+            'clases' => $this->clases,
+        ]);
     }
 }

@@ -10,7 +10,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Clases\ClasesController;
 use App\Http\Controllers\JustificacionInasistenciaController;
 use App\Http\Livewire\Cursos\EditCurso;
-
 use Carbon\Carbon;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\Asistencia\AsistenciaController;
@@ -81,7 +80,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 //rutas para asistencia
-//Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    //Route::get('asistencia/asistencia', [AsistenciaController::class, 'clases_index'])->name('clases-clases-index');
-//});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('asistencia/asistencia/{cursoId}', [AsistenciaController::class, 'asistencias_create'])->name('asistencias-asistencias-create');
+});
+
 

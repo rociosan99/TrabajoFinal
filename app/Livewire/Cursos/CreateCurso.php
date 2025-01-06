@@ -22,7 +22,7 @@ class CreateCurso extends Component
     public $fecha_inicio;
     public $fecha_fin;
     public $descripcion;
-    public $profesor;
+    public $profesor; // Se usará para asignar el profesor seleccionado
 
     // Control de errores
     public $dias_is_empty;
@@ -31,6 +31,7 @@ class CreateCurso extends Component
 
     public function mount()
     {
+        // Obtener lista de profesores con rol "Profesor"
         $this->misprofesores = User::role('Profesor')->get();
 
         // Crear la estructura inicial del input de días con horas
@@ -51,12 +52,12 @@ class CreateCurso extends Component
             ]);
         }
     }
+
     public function removeInput($key)
     {
         // Eliminar el día de la semana específico
         unset($this->dias[$key]);
     }
-
 
     // Validaciones
     protected $rules = [
@@ -64,7 +65,7 @@ class CreateCurso extends Component
         'fecha_inicio' => 'required|date',
         'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
         'descripcion' => 'nullable|string|max:1000',
-        'profesor' => 'required',
+        'profesor' => 'required', // Validación para el profesor seleccionado
         'dias.*.dia' => 'required',
         'dias.*.hora_inicio' => 'required|date_format:H:i',
         'dias.*.hora_fin' => 'required|date_format:H:i|after:dias.*.hora_inicio',
@@ -76,52 +77,55 @@ class CreateCurso extends Component
         'hora_fin.required' => 'La hora de fin es requerida',
         'fecha_inicio.required' => 'La fecha de inicio es requerida',
         'fecha_fin.required' => 'La fecha de fin es requerida',
-        'profesor.required' => 'El profesor es requerido',
+        'profesor.required' => 'El profesor es requerido', // Mensaje para el profesor
         'dias.*.dia.required' => 'Debe elegir un día',
         'dias.*.hora_inicio.required' => 'Debe elegir un horario de inicio',
         'dias.*.hora_fin.required' => 'Debe elegir un horario de fin',
         'dias.*.hora_fin.after' => 'La hora de fin debe ser posterior a la hora de inicio',
     ];
 
-
     public function save()
-    {
-        if (count($this->dias) == 0) {
-            $this->dias_is_empty = true;
-            return;
-        }
-
-        $this->dias_is_empty = false;
-
-        // Validar
-        $validated = $this->validate();
-
-        // Crear el curso
-        $curso = Curso::create([
-            'nombre' => $this->nombre,
-            'fecha_inicio' => $this->fecha_inicio,
-            'fecha_fin' => $this->fecha_fin,
-            'descripcion' => $this->descripcion,
-            'usuario_id' => $this->profesor,
-        ]);
-
-        // Crear los horarios asociados al curso
-        foreach ($this->dias as $dia) {
-            HorariosCurso::create([
-                'id_curso' => $curso->id,
-                'hora_inicio' => $dia['hora_inicio'],
-                'hora_fin' => $dia['hora_fin'],
-                'dia_semana' => $dia['dia'],
-            ]);
-        }
-
-        // Crear las clases automáticamente
-        $this->crearClases($curso);
-
-        // Redirección con mensaje de éxito
-        session()->flash('message', 'Curso creado exitosamente.');
-        return redirect()->route('clases-clases-index', ['cursoId' => $curso->id]);
+{
+    if (count($this->dias) == 0) {
+        $this->dias_is_empty = true;
+        return;
     }
+
+    $this->dias_is_empty = false;
+
+    // Validar
+    $validated = $this->validate();
+
+    // Crear el curso
+    $curso = Curso::create([
+        'nombre' => $this->nombre,
+        'fecha_inicio' => $this->fecha_inicio,
+        'fecha_fin' => $this->fecha_fin,
+        'descripcion' => $this->descripcion,
+        'usuario_id' => $this->profesor,  // Asignar el valor del profesor seleccionado
+    ]);
+
+    // **Asignar el profesor al curso** (si es necesario)
+    $curso->profesores()->attach($this->profesor); // Relación muchos a muchos
+
+    // Crear los horarios asociados al curso
+    foreach ($this->dias as $dia) {
+        HorariosCurso::create([
+            'id_curso' => $curso->id,
+            'hora_inicio' => $dia['hora_inicio'],
+            'hora_fin' => $dia['hora_fin'],
+            'dia_semana' => $dia['dia'],
+        ]);
+    }
+
+    // Crear las clases automáticamente
+    $this->crearClases($curso);
+
+    // Redirección con mensaje de éxito
+    session()->flash('message', 'Curso creado exitosamente.');
+    return redirect()->route('clases-clases-index', ['cursoId' => $curso->id]);
+}
+
 
     // Método para crear las clases de acuerdo a los horarios
     public function crearClases($curso)

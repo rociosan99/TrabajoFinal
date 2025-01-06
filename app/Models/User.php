@@ -13,8 +13,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-
-
 class User extends Authenticatable implements Auditable
 {
     use HasApiTokens;
@@ -53,14 +51,12 @@ class User extends Authenticatable implements Auditable
         ];
     }
 
-    // Relación con los cursos (de alumno)
     public function cursos()
     {
         return $this->belongsToMany(Curso::class, 'alumnoxcurso', 'user_id', 'curso_id')
                     ->withTimestamps();
     }
 
-    // Relación con las asistencias
     public function asistencias()
     {
         return $this->hasMany(Asistencia::class, 'user_id');
@@ -69,5 +65,10 @@ class User extends Authenticatable implements Auditable
     public function alumnoxcurso()
     {
         return $this->hasMany(AlumnoxCurso::class, 'user_id', 'id');
+    }
+
+    public function profesorxcurso()
+    {
+        return $this->belongsToMany(Curso::class, 'ProfesorxCurso', 'user_id', 'curso_id');
     }
 }

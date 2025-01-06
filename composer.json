@@ -15,7 +15,7 @@
         "livewire/volt": "^1.0",
         "nesbot/carbon": "*",
         "owen-it/laravel-auditing": "^13.6",
-        "spatie/laravel-permission": "^6.9"
+        "spatie/laravel-permission": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

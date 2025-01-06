@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Carbon\Carbon;
 
+
 class Clase extends Model
 {
     use HasFactory;
@@ -16,14 +17,18 @@ class Clase extends Model
         'hora_inicio',
         'hora_fin',
         'curso_id',
+        'cantidad',
+        'dictado', // Campo nuevo
+        'observacion', // Campo nuevo
     ];
-    // Asegura que los campos de fecha sean tratados como instancias de Carbon
+
     protected $casts = [
         'fecha_clase' => 'datetime',
         'hora_inicio' => 'datetime',
         'hora_fin' => 'datetime',
+        'dictado' => 'boolean', // Cast de dictado
     ];
-    /** Relación con el modelo Curso */
+
     public function curso(): BelongsTo
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
@@ -33,6 +38,4 @@ class Clase extends Model
     {
         return $this->hasMany(Asistencia::class, 'clase_id');
     }
-
-    
 }

@@ -1,7 +1,6 @@
-
 <div class="p-6">
-     <!-- Botón para volver atrás -->
-     <div class="mb-4">
+    <!-- Botón para volver atrás -->
+    <div class="mb-4">
         <a href="{{ route('cursos-cursos-index') }}" class="inline-flex items-center text-blue-500 hover:text-blue-700 font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -9,6 +8,7 @@
             Volver a cursos
         </a>
     </div>
+
     <!-- Título -->
     <h2 class="text-2xl font-bold mb-4">Matriculación de Alumnos</h2>
 
@@ -103,7 +103,7 @@
     <div class="flex justify-center mt-4">
         <button 
             wire:click="matricularAlumnos" 
-            class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">
             Matricular
         </button>
         <a href="{{ route('cursos-cursos-index') }}" 

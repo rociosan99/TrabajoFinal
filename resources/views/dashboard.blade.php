@@ -40,9 +40,7 @@
                     </x-nav-link>
                 @endcan
 
-                <x-nav-link href="" :active="request()->routeIs('')">
-                    Asistencias
-                </x-nav-link>
+               
 
                 
 

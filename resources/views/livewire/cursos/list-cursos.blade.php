@@ -41,14 +41,24 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->id }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->nombre }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">
-                        @foreach($curso->horariosCurso as $horario)
-                            <div>{{ ucfirst($horario->dia_semana) }}</div>
-                        @endforeach
+                        <div class="space-y-2">
+                            @foreach($curso->horariosCurso as $horario)
+                                <div>{{ ucfirst($horario->dia_semana) }}</div>
+                                @if (!$loop->last)
+                                    <div class="border-b border-gray-300 my-2"></div> <!-- Línea separadora -->
+                                @endif
+                            @endforeach
+                        </div>
                     </td>
                     <td class="border border-gray-300 p-2 text-md text-black">
-                        @foreach($curso->horariosCurso as $horario)
-                            <div>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_fin)->format('H:i') }}</div>
-                        @endforeach
+                        <div class="space-y-2">
+                            @foreach($curso->horariosCurso as $horario)
+                                <div>{{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }} - {{ \Carbon\Carbon::parse($horario->hora_fin)->format('H:i') }}</div>
+                                @if (!$loop->last)
+                                    <div class="border-b border-gray-300 my-2"></div> <!-- Línea separadora -->
+                                @endif
+                            @endforeach
+                        </div>
                     </td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->usuario->name }}</td>
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->fecha_inicio->format("d-m-Y")}}</td>
