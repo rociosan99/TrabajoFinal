@@ -10,9 +10,10 @@ use App\Models\Curso;
 
 class AsistenciaController extends Controller
 {
-    public function asistencias_create($cursoId)
+    public function asistencias_create($claseId)
     {
+        
         // Ajusta el nombre de la vista para que coincida con el archivo
-        return view('vistas_estaticas.asistencias.create-asistencia', compact('cursoId'));
+        return view('vistas_estaticas.asistencias.create-asistencia', compact('claseId'));
     }
 }

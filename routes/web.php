@@ -82,7 +82,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 //rutas para asistencia
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('asistencia/asistencia/{cursoId}', [AsistenciaController::class, 'asistencias_create'])->name('asistencias-asistencias-create');
+    Route::get('asistencia/asistencia/{claseId}', [AsistenciaController::class, 'asistencias_create'])->name('asistencias-asistencias-create');
 });
 
 

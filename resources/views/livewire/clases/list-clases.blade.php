@@ -29,7 +29,7 @@
                     <td class="border border-gray-300 text-center py-4 px-4">{{ $clase->hora_fin->format('H:i') }}</td>
                     <td class="border border-gray-300 text-center py-4 px-4">
                         <!-- Botón de Asistencias -->
-                        <a href="{{ route('asistencias-asistencias-create',['cursoId' =>$clase->id])}}" 
+                        <a href="{{ route('asistencias-asistencias-create',$clase->id)}}" 
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                              Asistencias
                          </a>
