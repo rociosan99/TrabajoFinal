@@ -1,8 +1,4 @@
 <div>
-    <!-- Botón para volver atrás -->
-    <button wire:click="deleteUser(17)" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Guardar Motivo 2
-    </button>
     <div class="mb-4">
         <a href="{{ route('cursos-cursos-index') }}"
             class="inline-flex items-center text-blue-500 hover:text-blue-700 font-medium">

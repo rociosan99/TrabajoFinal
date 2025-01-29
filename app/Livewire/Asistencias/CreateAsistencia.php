@@ -26,32 +26,30 @@ class CreateAsistencia extends Component
         $this->curso = Curso::findOrFail($this->cursoId);
         $this->alumnos = $this->curso->alumnos;
 
-        // Inicializar estado de asistencia
+        // Cargar asistencias previas y establecer el estado inicial
         foreach ($this->alumnos as $alumno) {
-            $this->asistencias[$alumno->id] = false; // Estado predeterminado: ausente
+            $asistencia = Asistencia::where('usuario_id', $alumno->id)
+                                    ->where('clase_id', $this->clase->id)
+                                    ->first();
+            
+            $this->asistencias[$alumno->id] = $asistencia ? ($asistencia->estado === 'presente') : false;
         }
     }
 
     public function guardarAsistencias()
     {
-        //echo var_dump($this->asistencias);
-        //die();
         foreach ($this->asistencias as $usuarioId => $presente) {
-            // Determinar el estado basado en el checkbox
             $estado = $presente ? 'presente' : 'ausente';
-
-            // Crear el registro de asistencia
-            Asistencia::crearAsistencia($usuarioId, $this->clase->id, $estado);
+            
+            Asistencia::updateOrCreate(
+                ['usuario_id' => $usuarioId, 'clase_id' => $this->clase->id],
+                ['estado' => $estado]
+            );
         }
 
         // Mensaje de éxito
         session()->flash('message', 'Asistencias registradas correctamente.');
         return redirect()->route('clases-clases-index', ['cursoId' => $this->cursoId]);
-
-        // Reiniciar asistencias después de guardar
-        foreach ($this->alumnos as $alumno) {
-            $this->asistencias[$alumno->id] = false; // Restablecer a "ausente"
-        }
     }
 
     public function render()
