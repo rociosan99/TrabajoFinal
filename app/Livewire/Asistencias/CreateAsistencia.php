@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Asistencias;
 
-
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Asistencia;
@@ -16,40 +15,43 @@ class CreateAsistencia extends Component
     public $asistencias = []; // Estado de asistencia para cada alumno
     public $curso;
     public $clase;
-    
+
     public function mount($claseId)
     {
-        //die('hola');
-        $this->clase=Clase::findOrFail($claseId);
-        $cursoId=$this->clase['curso_id'];
-        $this->cursoId = $cursoId;
-        // Obtener alumnos con el rol "Alumno" asociados al curso
-        $this->cursoId = $cursoId;
-        $this->curso = Curso::findOrFail($cursoId); // Guardar el curso completo
+        // Buscar la clase y obtener el curso relacionado
+        $this->clase = Clase::findOrFail($claseId);
+        $this->cursoId = $this->clase->curso_id;
 
-        // Cargar la relación con los alumnos
+        // Cargar el curso y los alumnos asociados
+        $this->curso = Curso::findOrFail($this->cursoId);
         $this->alumnos = $this->curso->alumnos;
 
-       
         // Inicializar estado de asistencia
         foreach ($this->alumnos as $alumno) {
-            $this->asistencias[$alumno->id] = 'ausente'; // Valor predeterminado
+            $this->asistencias[$alumno->id] = false; // Estado predeterminado: ausente
         }
     }
 
     public function guardarAsistencias()
     {
-        foreach ($this->asistencias as $usuarioId => $estado) {
-            Asistencia::create([
-                'estado' => $estado,             // Estado de asistencia (ausente/presente)
-                'clase_id' => null,             // Relaciona con la clase si aplica
-                'curso_id' => $this->cursoId,   // ID del curso actual
-                'usuario_id' => $usuarioId,     // ID del alumno
-            ]);
+        //echo var_dump($this->asistencias);
+        //die();
+        foreach ($this->asistencias as $usuarioId => $presente) {
+            // Determinar el estado basado en el checkbox
+            $estado = $presente ? 'presente' : 'ausente';
+
+            // Crear el registro de asistencia
+            Asistencia::crearAsistencia($usuarioId, $this->clase->id, $estado);
         }
 
         // Mensaje de éxito
         session()->flash('message', 'Asistencias registradas correctamente.');
+        return redirect()->route('clases-clases-index', ['cursoId' => $this->cursoId]);
+
+        // Reiniciar asistencias después de guardar
+        foreach ($this->alumnos as $alumno) {
+            $this->asistencias[$alumno->id] = false; // Restablecer a "ausente"
+        }
     }
 
     public function render()

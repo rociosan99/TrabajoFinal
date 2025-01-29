@@ -76,7 +76,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 //rutas para clases
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('clases/clases/{cursoId?}', [ClasesController::class, 'clases_index'])->name('clases-clases-index');
+    Route::get('clases/clases/{cursoId}', [ClasesController::class, 'clases_index'])->name('clases-clases-index');
+
 });
 
 //rutas para asistencia

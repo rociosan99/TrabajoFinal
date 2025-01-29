@@ -10,6 +10,7 @@ class ListRoles extends Component
     public $roles;
     public $roleId;
     public $name;
+    public $search = ''; // Campo de búsqueda por nombre de rol
     public $isEditing = false;
 
     protected $rules = [
@@ -38,7 +39,7 @@ class ListRoles extends Component
 
         session()->flash('message', 'Role updated successfully.');
         $this->resetForm();
-        $this->roles = Role::all();
+        $this->loadRoles();
     }
 
     public function deleteRole($roleId)
@@ -46,7 +47,16 @@ class ListRoles extends Component
         Role::find($roleId)->delete();
 
         session()->flash('message', 'Role deleted successfully.');
-        $this->roles = Role::all();
+        $this->loadRoles();
+    }
+
+    public function loadRoles()
+    {
+        if ($this->search) {
+            $this->roles = Role::where('name', 'like', '%' . $this->search . '%')->get();
+        } else {
+            $this->roles = Role::all();
+        }
     }
 
     public function resetForm()

@@ -22,9 +22,13 @@
                     <p class="text-gray-600 mt-2">Duración: 
                         {{ \Carbon\Carbon::parse($clase->hora_inicio)->diffInMinutes($clase->hora_fin) / 60 }} horas
                     </p>
-                    <button class="mt-4 px-5 py-3 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none transition duration-200">
-                        Ver detalles
-                    </button>
+                    <td class="border border-gray-300 text-center py-4 px-4">
+                        <!-- Botón de Asistencias -->
+                        <a href="{{ route('asistencias-asistencias-create', $clase->id) }}" 
+                           class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                            Asistencias
+                        </a>
+                    </td>                    
                 </div>
             @endforeach
         </div>

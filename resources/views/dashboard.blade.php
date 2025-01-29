@@ -1,4 +1,6 @@
 <x-app-layout>
+   
+
     <div x-data="{ open: false }">
         <!-- Botón del menú hamburguesa -->
         <div id="toggleSidebar" @click="open = ! open" style="position: fixed; top: 10px; left: 10px; z-index: 1000; cursor: pointer;">
@@ -39,11 +41,6 @@
                         Calificaciones
                     </x-nav-link>
                 @endcan
-
-               
-
-                
-
             </div>
         </div>
     </div>
@@ -65,4 +62,7 @@
             @yield('view_content')
         </div>
     </div>
+
+   
+   
 </x-app-layout>

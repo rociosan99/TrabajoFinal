@@ -10,14 +10,14 @@ class ListClases extends Component
 {
     public $curso_id;
     public $clases;
+    public $dictado = ""; // Para manejar si la clase se dictó
+    public $observacion; // Motivo de no dictar clase
+    public $selectedClaseId; // Clase seleccionada para actualizar
     public $alumnos = [];
-    public $selectedClaseId;
-    public $showModal = false; // Variable para controlar el modal
 
     public function mount($curso_id)
     {
         $this->curso_id = $curso_id;
-        //die($curso_id);
         $this->loadClases();
     }
 
@@ -26,23 +26,30 @@ class ListClases extends Component
         $this->clases = Clase::where('curso_id', $this->curso_id)->get();
     }
 
-    public function loadAlumnos($claseId)
+    public function guardarMotivo()
     {
-        $this->selectedClaseId = $claseId;
-        $clase = Clase::find($claseId);
-
-        if ($clase) {
-            $this->alumnos = $clase->curso->alumnos;
-        } else {
-            $this->alumnos = [];
+        if (empty($this->observacion)) {
+            session()->flash('error', 'El motivo no puede estar vacío.');
+            return;
         }
 
-        $this->showModal = true; // Mostrar el modal al cargar los alumnos
-    }
+        // Guardar el motivo en la base de datos
+        $clase = Clase::find($this->selectedClaseId);
 
-    public function closeModal()
-    {
-        $this->showModal = false; // Cerrar el modal
+        if (!$clase) {
+            session()->flash('error', 'Clase no encontrada.');
+            return;
+        }
+
+        $clase->observacion = $this->observacion;
+        $clase->save();
+
+        session()->flash('success', 'Motivo guardado correctamente.');
+
+        // Resetear campos y recargar datos
+        $this->reset('observacion');
+        $this->dictado = null;
+        $this->loadClases(); // Asegúrate de que este método exista en tu componente
     }
 
     public function render()

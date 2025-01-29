@@ -1,9 +1,41 @@
 <div>
-    <div class="w-full flex justify-end items-center gap-4 p-4">
-        <a href="{{ route('users-roles-create') }}" class="bg-green-700 text-white font-bold py-2 px-4 rounded hover:bg-green-800 transition-colors">
-            Nuevo Rol
+    <!-- Botón Volver al inicio -->
+    <div class="mb-2">
+        <a href="{{ route('admin.dashboard') }}" 
+           class="inline-flex items-center text-blue-500 hover:text-blue-700 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="w-5 h-5 mr-2" 
+                 fill="none" 
+                 viewBox="0 0 24 24" 
+                 stroke="currentColor">
+                <path stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      stroke-width="2" 
+                      d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Volver al inicio
         </a>
     </div>
+
+    <!-- Filtro por nombre de rol -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 p-4">
+        <!-- Filtro por nombre de rol -->
+        <div class="flex items-center space-x-2">
+            <input 
+                type="text" 
+                wire:model="search" 
+                placeholder="Buscar rol..." 
+                class="p-2 border rounded-md shadow-md w-72"  <!-- Ampliado tamaño del campo -->
+            <button 
+                wire:click="loadRoles" 
+                class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            >
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabla de roles -->
     <table class="w-full border-collapse border border-gray-300 bg-white">
         <thead>
             <tr class="bg-blue-500 text-white">
@@ -18,7 +50,7 @@
             <tr wire:key="{{ $role->id }}">
                 <td class="border border-gray-300 p-2">{{ $role->id }}</td>
                 <td class="border border-gray-300 p-2">{{ $role->name }}</td>
-                <td class="border border-gray-300 p-2">{{ Date::parse($role->created_at)->format('d-m-Y') }}</td>
+                <td class="border border-gray-300 p-2">{{ \Carbon\Carbon::parse($role->created_at)->format('d-m-Y') }}</td>
                 <td class="border border-gray-300 p-2 text-center">
                     <div class="flex justify-center items-center gap-4">
                         <button wire:click="startEdit({{ $role->id }})" class="text-blue-600 hover:text-blue-900">Editar</button>

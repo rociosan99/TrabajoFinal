@@ -66,19 +66,19 @@
                     <td class="border border-gray-300 p-2 text-md text-black">{{ $curso->descripcion }}</td>
                     <td class="border border-gray-300 p-2 text-center">
                         <div class="flex justify-center items-center gap-4">
-                            <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 relative group">
+                            <a href="{{ route('cursos-cursos-edit', $curso->id) }}" class="text-blue-600 hover:text-blue-900 relative group" title="Editar Curso">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900 relative group">
+                            <a href="{{ route('cursos-cursos-matriculacion', $curso->id) }}" class="text-green-600 hover:text-green-900 relative group" title="Matricular Alumnos">
                                 <i class="fas fa-user-plus"></i>
                             </a>
-                            <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900 relative group">
+                            <a href="{{route('cursos-cursos-alumnos', $curso->id)}}" class="text-indigo-600 hover:text-indigo-900 relative group" title="Alumnos Matriculados">
                                 <i class="fas fa-users"></i>
                             </a>
-                            <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900 relative group">
-                                <i class="fas fa-trash-alt"></i>
+                            <button wire:click="deleteCurso({{ $curso->id }})" wire:confirm="¿Desea dar de baja este Curso?" class="text-red-600 hover:text-red-900 relative group" title="Dar de Baja Curso">
+                                <i class="fas fa-ban"></i>
                             </button>
-                            <a href="{{ route('clases-clases-index', ['cursoId' => $curso->id]) }}" class="text-indigo-600 hover:text-indigo-900 relative group">
+                            <a href="{{ route('clases-clases-index', ['cursoId' => $curso->id]) }}" class="text-indigo-600 hover:text-indigo-900 relative group" title="Lista de Clases">
                                 <i class="fas fa-chalkboard-teacher"></i>
                             </a>
                         </div>
