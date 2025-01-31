@@ -69,4 +69,9 @@ class Curso extends Model
     {
         return $this->belongsToMany(User::class, 'profesorxcurso', 'curso_id', 'user_id');
     }
+
+    public function comunicaciones()
+    {
+        return $this->hasMany(Comunicacion::class, 'id_curso');
+    }
 }

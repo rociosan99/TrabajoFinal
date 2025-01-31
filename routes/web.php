@@ -13,7 +13,7 @@ use App\Http\Livewire\Cursos\EditCurso;
 use Carbon\Carbon;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\Asistencia\AsistenciaController;
-
+use App\Http\Controllers\Comunicado\ComunicadoController;
 
 // Ruta para la página de inicio
 Route::get('/', function () {
@@ -81,9 +81,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 //rutas para asistencia
-
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('asistencia/asistencia/{claseId}', [AsistenciaController::class, 'asistencias_create'])->name('asistencias-asistencias-create');
+});
+
+//rutas para comunicados
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('comunicados/comunicados', [ComunicadoController::class, 'comunicados_index'])->name('comunicados-comunicados-index');
+    Route::get('comunicados/comunicados/{id_comunicacion}', [ComunicadoController::class, 'comunicados_read'])->name('comunicados-comunicados-read');
 });
 
 

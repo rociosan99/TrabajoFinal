@@ -14,6 +14,8 @@
                 <p class="text-gray-600 mt-2">Profesor: {{ $cursos->first()->usuario->name }}</p>
                 <!-- Otros detalles del curso -->
             </div>
+
+            
         </div>
     @else
         <p class="text-white text-center">No estás inscrito en ningún curso actualmente.</p>

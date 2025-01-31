@@ -38,4 +38,9 @@ class Clase extends Model
     {
         return $this->hasMany(Asistencia::class, 'clase_id');
     }
+
+    public function comunicaciones()
+    {
+        return $this->hasMany(Comunicacion::class, 'id_clase');
+    }
 }

@@ -71,4 +71,12 @@ class User extends Authenticatable implements Auditable
     {
         return $this->belongsToMany(Curso::class, 'ProfesorxCurso', 'user_id', 'curso_id');
     }
+
+    public function comunicacionesRecibidas()
+    {
+        return $this->hasMany(Comunicacion::class, 'receptor_id');
+    }
+
+    
+
 }
