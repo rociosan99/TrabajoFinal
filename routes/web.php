@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\Asistencia\AsistenciaController;
 use App\Http\Controllers\Comunicado\ComunicadoController;
+use App\Http\Controllers\Estadistica\EstadisticaController;
 
 // Ruta para la página de inicio
 Route::get('/', function () {
@@ -89,6 +90,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('comunicados/comunicados', [ComunicadoController::class, 'comunicados_index'])->name('comunicados-comunicados-index');
     Route::get('comunicados/comunicados/{id_comunicacion}', [ComunicadoController::class, 'comunicados_read'])->name('comunicados-comunicados-read');
+  
 });
+
+//rutas para estadisticas
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+        Route::get('estadistica/estadistica', [EstadisticaController::class,'estadistica_index'])->name('estadistica-estadistica-index');
+});
+
 
 

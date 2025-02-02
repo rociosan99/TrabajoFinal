@@ -25,9 +25,17 @@
 
         <!-- Card de Comunicados -->
         <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
-            <a href="{{ route('comunicados-comunicados-index') }}" 
+            <a href="" 
                 class="block text-2xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300">
                 Comunicados
+            </a>
+        </div>
+
+        <!-- Card de Estadísticas -->
+        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+            <a href="{{ route('estadistica-estadistica-index')}}" 
+                class="block text-2xl font-semibold text-gray-800 hover:text-blue-600 transition duration-300">
+                Estadísticas
             </a>
         </div>
 

@@ -10,7 +10,7 @@
         <div class="space-y-4">
             <div>
                 <label for="mensaje" class="block text-sm font-medium text-gray-700">Tu respuesta</label>
-                <textarea id="mensaje" wire:model="mensaje" class="w-full h-32 border border-gray-300 rounded-md p-2 resize-none" placeholder="Escribe tu respuesta aquí..."></textarea>
+                <textarea id_comunicacion="mensaje" wire:model="mensaje" class="w-full h-32 border border-gray-300 rounded-md p-2 resize-none" placeholder="Escribe tu respuesta aquí..."></textarea>
                 @error('mensaje') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 

@@ -13,6 +13,7 @@ class CreateMatriculacion extends Component
     public $alumnos; 
     public $alumnos_matricular; 
     public $search = ''; // Nueva propiedad para la búsqueda
+    public $showModal = false; // Variable para mostrar el modal
 
     public function mount($cursoId)
     {
@@ -80,28 +81,20 @@ class CreateMatriculacion extends Component
             // Verifica si el alumno ya está matriculado en otro curso
             $yaMatriculado = $user->cursos()->exists();
             if ($yaMatriculado) {
-                session()->flash('error', "El alumno {$user->name} {$user->apellido} ya está matriculado en otro curso.");
-                continue;
+                session()->flash('error', "El alumno {$user->name} {$user->apellido} ya está matriculado.");
+                return;
             }
-
-            // Verifica si el alumno ha terminado el periodo de su último curso
-            $ultimoCurso = $user->cursos()->latest()->first();
-            if ($ultimoCurso) {
-                $fechaActual = Carbon::now();
-                if ($ultimoCurso->fecha_fin && $ultimoCurso->fecha_fin > $fechaActual) {
-                    session()->flash('error', "El alumno {$user->name} {$user->apellido} aún no ha terminado su último curso.");
-                    continue;
-                }
-            }
-
-            // Matrícula del alumno en el nuevo curso
             $user->cursos()->attach($this->cursoId);
-
-            session()->flash('message', "El alumno {$user->name} {$user->apellido} ha sido matriculado en el curso.");
         }
 
-        $this->alumnos_matricular = []; // Limpiar lista de matriculados
-        $this->loadAvailableAlumnos(); // Recargar lista de alumnos disponibles
+        session()->flash('success', 'Alumnos matriculados con éxito.');
+        return redirect()->route('cursos-cursos-index');
+    }
+
+    public function showAddAlumnosModal()
+    {
+        // Aquí podrías abrir un modal si lo deseas
+        $this->showModal = true;
     }
 
     public function render()
