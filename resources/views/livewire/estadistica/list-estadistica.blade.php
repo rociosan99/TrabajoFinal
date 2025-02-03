@@ -3,14 +3,15 @@
 
     <div class="mb-4">
         <label for="curso" class="block text-gray-700">Selecciona un Curso:</label>
-        <select id="curso" wire:model="cursoSeleccionado" class="form-select mt-2 block w-full">
+        <select id="curso" wire:model="cursoSeleccionado" onchange="cambiarCurso()"
+            class="form-select mt-2 block w-full">
             <option value="">Todos los cursos</option>
-            @foreach($cursos as $curso)
+            @foreach ($cursos as $curso)
                 <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
             @endforeach
         </select>
     </div>
-    
+
 
     <!-- Gráfico de Asistencias por Día -->
     <div class="mt-6">
@@ -23,20 +24,22 @@
         <h2 class="text-xl font-semibold text-gray-700">Histograma de Asistencias por Clase</h2>
         <canvas id="asistenciasPorClase"></canvas>
     </div>
-    
+
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Script para generar gráficos con Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    let graficoslineas;
+    $(document).ready(function() {
         // Datos de asistencia por día
         const asistenciasPorDia = @json($asistenciasPorDia);
         const dias = asistenciasPorDia.map(d => d.fecha);
         const asistencias = asistenciasPorDia.map(d => d.cantidad);
 
         const ctx1 = document.getElementById("asistenciasPorDia").getContext("2d");
-        new Chart(ctx1, {
+        graficoslineas = new Chart(ctx1, {
             type: "line",
             data: {
                 labels: dias,
@@ -49,6 +52,7 @@
                 }]
             }
         });
+
 
         // Datos del histograma de asistencias por clase
         const asistenciasPorClase = @json($asistenciasPorClase);
@@ -68,6 +72,26 @@
                     borderWidth: 1
                 }]
             }
+
         });
     });
+
+    function ajax_chart(chart, url, data) {
+            var data = data || {};
+            $.getJSON(url, data).done(function(response) {
+                console.log("Pude tener una respuesta:")
+                console.log("response", response);
+                const etiquetas = response.map(unaClase => unaClase.fecha);
+                const cantidades = response.map(unaClase => unaClase.cantidad);
+                chart.data.labels = etiquetas;
+                chart.data.datasets[0].data = cantidades
+                chart.update(); // finally update our chart
+            });
+        }
+
+    function cambiarCurso(e) {
+        let idCurso = $('#curso').val();
+        data = {'id': idCurso}
+        ajax_chart(graficoslineas, 'http://127.0.0.1:8000/estadistica/estadistica/api', data)
+    }
 </script>

@@ -24,11 +24,11 @@ class ListEstadistica extends Component
     {
         // Asistencias por día (Gráfico de líneas) filtrado por curso si se selecciona uno
         $query = Asistencia::select(
-                DB::raw('DATE(clases.fecha_clase) as fecha'),
-                DB::raw('COUNT(asistencias.id) as cantidad')
-            )
+            DB::raw('DATE(clases.fecha_clase) as fecha'),
+            DB::raw('COUNT(asistencias.id) as cantidad')
+        )
             ->join('clases', 'asistencias.clase_id', '=', 'clases.id');
-        
+
         // Filtrar por curso si se selecciona uno
         if ($this->cursoSeleccionado) {
             $query->where('clases.curso_id', $this->cursoSeleccionado);
@@ -42,12 +42,12 @@ class ListEstadistica extends Component
 
         // Histograma de asistencias por clase, filtrado por curso
         $queryClase = Clase::select(
-                'clases.id',
-                'clases.fecha_clase',
-                DB::raw('COUNT(asistencias.id) as cantidad_asistencias')
-            )
+            'clases.id',
+            'clases.fecha_clase',
+            DB::raw('COUNT(asistencias.id) as cantidad_asistencias')
+        )
             ->leftJoin('asistencias', 'clases.id', '=', 'asistencias.clase_id');
-        
+
         // Filtrar por curso si se selecciona uno
         if ($this->cursoSeleccionado) {
             $queryClase->where('clases.curso_id', $this->cursoSeleccionado);

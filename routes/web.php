@@ -96,6 +96,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 //rutas para estadisticas
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('estadistica/estadistica', [EstadisticaController::class,'estadistica_index'])->name('estadistica-estadistica-index');
+        Route::get('estadistica/estadistica/api', [EstadisticaController::class,'estadistica_api'])->name('estadistica-estadistica-api');
 });
 
 
